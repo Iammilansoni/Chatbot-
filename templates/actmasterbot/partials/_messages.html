@@ -1,0 +1,6 @@
+<ul>
+    {% for chat in session.chat_set.all %}
+      <li>{{ chat.user_profile.user.username }} ({{ chat.message_type }}): {{ chat.message_content }}</li>
+    {% endfor %}
+</ul>
+  

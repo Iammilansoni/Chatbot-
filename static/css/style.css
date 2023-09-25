@@ -1,0 +1,74 @@
+/* Add your global CSS styles here */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+header, nav, main, footer {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: inline;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    background-color: #28a745;
+}
+
+form button:hover {
+    background-color: #218838;
+}
+
+ul.messages {
+    list-style-type: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+ul.messages li {
+    margin-bottom: 5px;
+}
+
+ul.messages li.user-message {
+    color: #007BFF;
+    font-weight: bold;
+}
+
+ul.messages li.bot-message {
+    color: #28a745;
+    font-weight: bold;
+}

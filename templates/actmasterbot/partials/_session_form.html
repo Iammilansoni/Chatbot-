@@ -1,0 +1,6 @@
+<form method="post" action="{% url 'create_session' %}">
+    {% csrf_token %}
+    {{ session_form.as_p }}
+    <button type="submit">Create Session</button>
+  </form>
+  

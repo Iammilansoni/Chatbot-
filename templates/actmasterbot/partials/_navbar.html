@@ -1,0 +1,12 @@
+<nav>
+    <ul style="margin:0;">
+        <!-- Add any other navigation items -->
+        {% if user.is_authenticated %}
+            <li class="container mt-5"><a class="btn btn-primary" href="{% url 'chatbot' %}">Chatbot</a></li>
+            <li class="container mt-5"><a class="btn btn-primary" href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li class="container mt-5"><a class="btn btn-primary" href="{% url 'login' %}">Login</a></li>
+            <li class="container mt-5"><a class="btn btn-primary" href="{% url 'register' %}">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>

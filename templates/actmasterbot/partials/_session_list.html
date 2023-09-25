@@ -1,0 +1,7 @@
+<ul>
+    {% for session in sessions %}
+      <li>{{ session.session_name }} - {{ session.created_at }}</li>
+      <a href="{% url 'delete_session' session.id %}">Delete Session</a>
+    {% endfor %}
+  </ul>
+  

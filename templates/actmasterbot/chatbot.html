@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% csrf_token %}
+  <h2>Chatbot</h2>
+
+  <!-- Session Form -->
+  <div>
+    <h3>Create New Session</h3>
+    {% include 'actmasterbot/partials/_session_form.html' %}
+  </div>
+
+  <!-- Session List -->
+  <div>
+    <h3>Session List</h3>
+    {% include 'actmasterbot/partials/_session_list.html' %}
+  </div>
+
+  <!-- Chat Form -->
+  <div>
+    <h3>Chat with Bot</h3>
+    {% include 'actmasterbot/partials/_prompt_form.html' %}
+    {% include 'actmasterbot/partials/_messages.html' %}
+  </div>
+
+{% endblock %}
