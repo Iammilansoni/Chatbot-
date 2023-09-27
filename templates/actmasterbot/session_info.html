@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include any necessary CSS and JavaScript files -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Form to select old sessions or create a new one -->
+    <!-- ... (existing code) ... -->
+    <!-- Session Form -->
+    <div>
+        <h3>Create New Session</h3>
+        {% include 'actmasterbot/partials/_session_form.html' %}
+    </div>
+
+    <h4>Previous Sessions</h4>
+    <!-- Display a list of previous sessions as clickable links -->
+    <ul>
+        {% if sessions %}
+            {% for session in sessions reversed %}
+                <li>
+                    <a href="/chatbot/?session_id={{ session.id }}">{{ session.session_name }}</a> - {{ session.created_at }} -- <a href="{% url 'delete_session' session.id %}">Delete Session</a>
+                </li>
+                <br>
+            {% endfor %}
+        {% else %}
+            <li>No session created yet.</li>
+        {% endif %}
+
+    </ul>
+</body>
+</html>

@@ -86,7 +86,7 @@ def parse_arguments():
 def prompt_ai(prompt:str=""):
     # Parse the command line arguments
     # args = parse_arguments()
-    from constants import CHROMA_SETTINGS
+    from .constants import CHROMA_SETTINGS
     embeddings_model_name = os.environ.get("EMBEDDINGS_MODEL_NAME")
     persist_directory = os.environ.get('PERSIST_DIRECTORY')
 

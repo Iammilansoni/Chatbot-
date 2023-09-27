@@ -55,7 +55,7 @@ class Chat(BaseModelWithCreatedInfo):
 		verbose_name_plural = "Chats"
 
 	def __str__(self):
-		return f'{self.user_profile.user.username} - {self.created_at}'
+		return f'{self.session.user_profile.user.username} - {self.created_at}'
 
 
 @receiver(post_save, sender = User)

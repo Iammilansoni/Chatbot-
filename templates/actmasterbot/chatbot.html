@@ -1,26 +1,81 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
   {% csrf_token %}
-  <h2>Chatbot</h2>
+  {% if request.GET.session_id or session %}
+    <div>
+      <div id="chat-messages">
+        {% include 'actmasterbot/partials/_messages.html' %}
+      </div>
+      <div id="loader" style="display: none;">
+        <!-- Add your loader image or spinner here -->
+        <img src="{% static 'loading.gif' %}" alt="Pink Page Loader" style="width: 100px;height: 100px;">
+        <p>Loading...</p>
+      </div>
+      {% include 'actmasterbot/partials/_prompt_form.html' %}
+    </div>
+  {% elif nosession %}
+    <h4>{{ note }}</h4>
+  {% endif %}
+  <script>
+    // Function to show the loader and message
+    function showLoaderAndMessage() {
+      document.getElementById('loader').style.display = 'block';
+      document.getElementById('submit-button').style.display = 'none';
+    }
 
-  <!-- Session Form -->
-  <div>
-    <h3>Create New Session</h3>
-    {% include 'actmasterbot/partials/_session_form.html' %}
-  </div>
+    function modifyBotResponses(){
+        let botResponseDivs = Array.from(document.getElementsByClassName('bot-response'));
+        console.log("botResponseDivs:", botResponseDivs);
+        botResponseDivs.forEach((botResponseDiv)=>{
+          botResponseDiv.innerHTML = botResponseDiv.innerText.replaceAll("\n", "<br>").replace('```', "<pre style=\"width: 100%;white-space: pre-wrap;\">").replace('```', "</pre>");
+        });
+    }
+    modifyBotResponses();
+  
+    // Function to hide the loader and message
+    function hideLoaderAndMessage() {
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('submit-button').style.display = 'flex';
+      modifyBotResponses();
+    }
 
-  <!-- Session List -->
-  <div>
-    <h3>Session List</h3>
-    {% include 'actmasterbot/partials/_session_list.html' %}
-  </div>
 
-  <!-- Chat Form -->
-  <div>
-    <h3>Chat with Bot</h3>
-    {% include 'actmasterbot/partials/_prompt_form.html' %}
-    {% include 'actmasterbot/partials/_messages.html' %}
-  </div>
+  
+    // Function to handle form submission
+    function submitForm() {
+      console.log("Submit Form:\n\n")
+      showLoaderAndMessage();
+      // Send an AJAX request to process the user's message
+      const message = document.getElementById('id_message_content').value;
+      const session_id = document.getElementById('session_id').value;
+      const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+      console.log("\tmessage:", message);
+      console.log("\tsession_id:", session_id);
+      console.log("\tcsrfToken:", csrfToken);
 
+      // Make an AJAX POST request to process the message
+      fetch("{% url 'chatbot' %}", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRFToken': csrfToken,
+        },
+        body: `message_content=${encodeURIComponent(message)}&session_id=${encodeURIComponent(session_id)}`,
+      })
+        .then(response => response.json())
+        .then(data => {
+          hideLoaderAndMessage();
+          // Update the chat messages
+          const chatMessages = document.getElementById('chat-messages');
+          chatMessages.innerHTML = data.messages;
+          modifyBotResponses();
+        })
+        .catch(error => {
+          hideLoaderAndMessage();
+          console.error('Error:', error);
+        });
+    }
+  </script>
+  
 {% endblock %}

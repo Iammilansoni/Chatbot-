@@ -1,6 +1,7 @@
-<form method="post" action="{% url 'chatbot' %}">
+<form method="post" action="javascript:void(0);" onsubmit="submitForm()">
     {% csrf_token %}
     {{ chat_form.as_p }}
-    <button type="submit">Send Message</button>
-  </form>
+    <input type="hidden" id="session_id" name="session_id" value="{{ session.id }}">
+    <button id="submit-button" type="submit">Send Message</button>
+</form>
   

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile, Chat, Session
+from django.core.exceptions import ValidationError
+from .models import UserProfile, Chat, Session, User
 
 class RegistrationForm(UserCreationForm):
     gender = forms.CharField(max_length=32, required=False)
@@ -10,28 +11,31 @@ class RegistrationForm(UserCreationForm):
         fields = list(UserCreationForm.Meta.fields) + ['gender', 'mobile_number']
 
     def save(self, commit=True):
-        user = super().save(commit=commit)
-        print("user:", user)
-
+        user = super().save(commit=False)
+        if User.objects.filter(username = user.username).exists():
+            raise ValidationError( "username already exists." )
         if commit:
             user.save()
+            UserProfile.objects.filter(user = user).update(
+                gender = self.cleaned_data['gender'], 
+                mobile_number = self.cleaned_data['mobile_number'])
 
-        user_profile, created = UserProfile.objects.get_or_create(user=user, gender=self.cleaned_data['gender'], mobile_number=self.cleaned_data['mobile_number'])
-        # Assuming a OneToOneField from UserProfile to User
+        print("user:", user)
+        print("self.cleaned_data:", self.cleaned_data)
         print("UserProfile.objects.all():", UserProfile.objects.all())
-        return user_profile
+        return user
 
 
 class ChatForm(forms.ModelForm):
     class Meta:
         model = Chat
-        fields = ['message_content', 'message_type', 'session']
+        fields = ['message_content']
 
 class SessionForm(forms.ModelForm):
     class Meta:
         model = Session
         fields = ['session_name']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['session_name'].required = False
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['session_name'].required = True

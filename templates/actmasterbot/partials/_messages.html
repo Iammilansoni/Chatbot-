@@ -1,6 +1,19 @@
 <ul>
     {% for chat in session.chat_set.all %}
-      <li>{{ chat.user_profile.user.username }} ({{ chat.message_type }}): {{ chat.message_content }}</li>
+      {% if chat.message_type == "user" %}
+        <div>
+          <li> {{ chat.session.user_profile.user.username }} : </li>
+          <div class="user-response">
+            {{ chat.message_content }}
+          </div>
+        </div>
+      {% elif chat.message_type == "bot" %}
+          <div>
+            <li> bot : </li>
+            <div class="bot-response">
+              {{ chat.message_content }}
+            </div>
+          </div>
+      {% endif %}
     {% endfor %}
 </ul>
-  
