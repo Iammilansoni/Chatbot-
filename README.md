@@ -23,6 +23,8 @@ A chatbot to respond to text queries pertaining to various acts, rules and regul
 8. `python manage.py runserver 0:8000`
 
 
+# Download the falcon_q4 model from here
+1. [ggml-model-gpt4all-falcon-q4_0.bin](https://coal-india-chatbot.s3.ap-south-1.amazonaws.com/ggml-model-gpt4all-falcon-q4_0.bin)
 
 
 # Model Installation
